@@ -1,0 +1,30 @@
+#include <iostream>
+using namespace std;
+int main() {
+	int n;
+	cout << "razmernost: ";
+	cin >> n;
+	double** a = new double* [n];
+	double** L = new double* [n];
+	double** U = new double* [n];
+	for (int i = 0; i < n; i++) {
+		a[i] = new double[n];
+		L[i] = new double[n];
+		U[i] = new double[n];
+	}	
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			cout << i << " " << j << "\n";
+			cin >> a[i][j];
+		}
+	}
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			if (i == j)
+				L[i][j] = 1;
+			else
+				L[i][j] = 0;
+			U[i][j] = 0;
+		}
+	}
+}
