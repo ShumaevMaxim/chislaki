@@ -1,0 +1,93 @@
+#include <iostream>
+#include <math.h>
+#include <vector>
+
+using namespace std;
+
+// пусть функция f(x) = x^2-4
+
+double f(double x)
+{
+    //return x * x * x - 6 * x * x + 11 * x - 6;
+    return  x * x - 4;
+}
+
+//производная 
+double df(double x)
+{
+   // return 3 * x * x - 12 * x + 11;
+    return  2*x;
+}
+
+
+double fNewtonHybrid(double x0)
+{
+    double nx, x, px;// nx - новое приближение, x - старое, px - результат метода Ньютона
+    if (df(x0) == 0)
+    {
+        x = x0;
+        px = x - (f(x) / 0.001);
+    }
+    else
+    {
+        x = x0;
+        px = x - (f(x) / df(x0));// основная формула Ньютона
+    }
+    if (abs(f(px)) < abs(f(x0)))
+    {
+        nx = px;
+    }
+    else
+    {
+        nx = 0.5 * (x0 + px);
+    }
+    x = x0;
+    //проверка погрешности
+    while (abs(nx - x) > 0.01)
+    {
+        if (abs(f(px)) < abs(f(x)))
+        {
+            nx = px;
+        }
+        else
+        {
+            nx = 0.5 * (x + px);
+        }
+        x = nx;
+    }
+    return nx;
+}
+
+
+
+int main()
+{
+    double a, b;
+    cout << " input a,b" << endl;
+    cin >> a >> b;
+    vector <double> x;
+    // шаг
+    double h = 0.01;
+
+    while (a < b)
+    {
+        if (f(a) == 0)
+        {
+            x.push_back(a);
+        }
+        else
+        {
+            if (f(a) * f(a + h) < 0)
+            {
+                x.push_back(fNewtonHybrid(a + h));
+            }
+        }
+        a += h;
+    }
+
+
+    for (int i = 0; i < x.size(); i++)
+    {
+        cout << "x[" << i + 1 << "] " << x[i] << endl;
+    }
+}
